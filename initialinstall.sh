@@ -3,7 +3,7 @@
 # Installing dependencies.
 echo 'Updating packages and installing dependencies'
 apt-get update
-apt-get install curl screen supervisor netcat-traditional -y
+apt-get install curl vim screen supervisor netcat-traditional -y
 service supervisor restart
 
 # Add a new user for all Minecraft stuff.
@@ -15,7 +15,7 @@ usermod -d /home/minecraft -m minecraft
 
 # Download the intial version of Cuberite.
 echo 'Installing Cuberite'
-su minecrat -c 'mkdir /tmp/Server'
+su minecraft -c 'mkdir /tmp/Server'
 su minecraft -c 'cd /tmp/Server; curl -s https://raw.githubusercontent.com/cuberite/cuberite/master/easyinstall.sh | sh'
 su minecraft -c 'mv /tmp/Server/* /home/minecraft'
 rmdir /tmp/Server
