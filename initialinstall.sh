@@ -55,8 +55,10 @@ supervisorctl update
 
 # Create temporary webpage.
 externip=$(dig +short myip.opendns.com @resolver1.opendns.com)
-mkdrit /tmp/cuberite-web
-cd /tmp/cuberite -eb/
+
+mkdir /tmp/cuberite-web
+cd /tmp/cuberite-web/
+
 cat >info.html <<EOF
 <html>
 <head><title>Cuberite Information</title></head>
