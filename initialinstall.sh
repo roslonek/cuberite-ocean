@@ -15,7 +15,8 @@ usermod -d /home/minecraft -m minecraft
 
 # Download the intial version of Cuberite.
 echo 'Installing Cuberite'
-su minecraft -c 'cd /tmp; curl -s https://raw.githubusercontent.com/cuberite/cuberite/master/easyinstall.sh | sh'
+su minecrat -c 'mkdir /tmp/Server'
+su minecraft -c 'cd /tmp/Server; curl -s https://raw.githubusercontent.com/cuberite/cuberite/master/easyinstall.sh | sh'
 su minecraft -c 'mv /tmp/Server/* /home/minecraft'
 rmdir /tmp/Server
 
@@ -53,7 +54,8 @@ supervisorctl update
 
 # Create temporary webpage.
 externip=$(dig +short myip.opendns.com @resolver1.opendns.com)
-cd /tmp/cuberite-ocean/
+mkdir /tmp/cuberite-web
+cd /tmp/cuberite-web/
 cat >info.html <<EOF
 <html>
 <head><title>Cuberite Information</title></head>
