@@ -11,16 +11,16 @@ echo 'Setting up new user and area for Cuberite'
 password=$(head -c 9 < /dev/urandom | base64)
 useradd -m minecraft -s /bin/bash
 echo "minecraft:$password" | chpasswd
-usermod -d /minecraft -m minecraft
+usermod -d /home/minecraft -m minecraft
 
 # Download the intial version of Cuberite.
 echo 'Installing Cuberite'
 su minecraft -c 'cd /tmp; curl -s https://raw.githubusercontent.com/cuberite/cuberite/master/easyinstall.sh | sh'
-su minecraft -c 'mv /tmp/Server/* /minecraft'
+su minecraft -c 'mv /tmp/Server/* /home/minecraft'
 rmdir /tmp/Server
 
 # Set up WebAdmin.
-cd /minecraft
+cd /home/minecraft
 su minecraft -c 'echo stop | ./Cuberite'
 su minecraft -c "sed -i -e 's/; \[User:admin\]/[User:admin]/' -e 's/; Password=admin/Password=$password/' webadmin.ini"
 
@@ -30,18 +30,18 @@ slots=$[ $(grep MemTotal /proc/meminfo | awk '{print $2}') / 65536 ]
 sed -i "s/MaxPlayers=100/MaxPlayers=$slots/" settings.ini
 
 # Setting up the supervisor.
-cat > /minecraft/startcuberite.sh <<EOF
+cat > /home/minecraft/startcuberite.sh <<EOF
 #!/bin/sh
 
-cd /minecraft
+cd /home/minecraft
 ./Cuberite
 EOF
-chown minecraft /minecraft/startcuberite.sh
-su minecraft -c 'chmod +x /minecraft/startcuberite.sh'
+chown minecraft /home/minecraft/startcuberite.sh
+su minecraft -c 'chmod +x /home/minecraft/startcuberite.sh'
 
 cat > /etc/supervisor/conf.d/cuberite.conf <<EOF
 [program:cuberite]
-command=/minecraft/startcuberite.sh
+command=/home/minecraft/startcuberite.sh
 user=minecraft
 autostart=true
 autorestart=true
